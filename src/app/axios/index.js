@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Axios instance with headers
+// Axios instance with headers and authorization
 const instance = axios.create({
   baseURL: 'https://api.openai.com/v1/',
   headers: {
