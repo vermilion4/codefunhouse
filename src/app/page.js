@@ -15,20 +15,21 @@ export default function Home ()
   const tooltipRef = useRef(null);
   const btnRef = useRef(null);
 
-  const handleMouseHighlight = useCallback(async () =>
+  const handleExplanation = useCallback(async () =>
   {
     const selectedText = window.getSelection().toString();
 
     if (selectedText)
     {
       setTextToExplain(selectedText);
-      setShowExplanationBtn(true);
+      setShowExplanationBtn(false);
       setLoading(true);
+      setShowExplanation(true);
 
       try
       {
         const explanation = await ExplanationRequest(selectedText);
-        setExplanation(`Explanation for ${ selectedText }: ${ explanation }`);
+        setExplanation(`${ selectedText }: ${ explanation }`);
       } catch (error)
       {
         console.error('Error:', error);
@@ -40,12 +41,6 @@ export default function Home ()
     }
   }, []);
 
-  // Show explanation tooltip text
-  const handleShowExplanationText = useCallback(() =>
-  {
-    setShowExplanationBtn(false);
-    setShowExplanation(true);
-  }, []);
 
   // Handle text change
   const handleChange = useCallback((e) =>
@@ -68,7 +63,7 @@ export default function Home ()
     {
       const tooltipHeight = tooltipRef.current.clientHeight;
       tooltipRef.current.parentElement.style.marginTop = `${ tooltipHeight }px`;
-      tooltipRef.current.style.marginTop = `-${ tooltipHeight / 3.5 }px`;
+      tooltipRef.current.style.marginTop = `-${ tooltipHeight / 2.5 }px`;
     }
 
     if (showExplanationBtn && btnRef.current)
@@ -83,20 +78,20 @@ export default function Home ()
     <main className="min-h-screen w-[90vw] max-w-2xl mx-auto flex-col grid place-content-center py-5" onMouseDown={ () => setShowExplanation(false) }>
       <h1 className="text-3xl">Highlight For Explanation</h1>
 
-      <QueryForm textToExplain={ textToExplain } handleChange={ handleChange } />
+      <QueryForm handleChange={ handleChange } />
 
-      <div onMouseUp={ handleMouseHighlight }>
+      <div onMouseUp={ () => setShowExplanationBtn(true) }>
         <h3 className="relative flex flex-col gap-5 mt-3 mb-10">
           <span id="highlightInstructions">Highlight your query below for explanation</span>
           <TextHighlight
             textToExplain={ textToExplain }
-            handleShowExplanationText={ handleShowExplanationText }
             showExplanationBtn={ showExplanationBtn }
             showExplanation={ showExplanation }
             explanation={ explanation }
             btnRef={ btnRef }
             tooltipRef={ tooltipRef }
             loading={ loading }
+            handleExplanation={ handleExplanation }
           />
         </h3>
       </div>

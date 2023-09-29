@@ -3,7 +3,7 @@ import Tooltip from './Tooltip';
 
 function TextHighlight({
   textToExplain,
-  handleShowExplanationText,
+  handleExplanation,
   showExplanationBtn,
   showExplanation,
   explanation,
@@ -19,8 +19,7 @@ function TextHighlight({
         role='textbox'
         aria-multiline='true'
         aria-labelledby='highlightInstructions'
-        className={`cursor-text outline-none focus:ring focus:ring-opacity-50`}
-        onMouseDown={(e) => e.preventDefault()}>
+        className={`cursor-text outline-none focus:ring focus:ring-opacity-50`}>
         {textToExplain}
       </div>
       {showExplanationBtn && (
@@ -31,7 +30,7 @@ function TextHighlight({
           <button
             ref={btnRef}
             className={`absolute -top-7 left-0 p-3 text-sm bg-black text-white rounded-lg transform -translate-y-1/2 opacity-100 z-10 border border-white dark:bg-white dark:text-black hover:bg-gray-200 transition-all duration-300`}
-            onClick={handleShowExplanationText}>
+            onClick={handleExplanation}>
             Explain
           </button>
         </>
