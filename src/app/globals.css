@@ -16,6 +16,12 @@
   }
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -24,4 +30,17 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+/* Custom scrollbar */
+.scroll-content::-webkit-scrollbar {
+  width: 2px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+  background: black;
 }
