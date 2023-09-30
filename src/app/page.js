@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import ExplanationRequest from './axios/explanationRequest';
 import QueryForm from './QueryForm';
 import TextHighlight from './TextHighlight';
+import useTooltipPosition from './hooks/useTooltipPosition';
 
 export default function Home ()
 {
@@ -77,22 +78,7 @@ export default function Home ()
   }, []);
 
   // UseEffect for setting tooltip position
-  useEffect(() =>
-  {
-    if (showExplanation && tooltipRef.current)
-    {
-      const tooltipHeight = tooltipRef.current.clientHeight;
-      tooltipRef.current.parentElement.style.marginTop = `${ tooltipHeight }px`;
-      tooltipRef.current.style.marginTop = `-${ tooltipHeight / 2.5 }px`;
-    }
-
-    if (showExplanationBtn && btnRef.current)
-    {
-      const tooltipBtnHeight = btnRef.current.clientHeight;
-      btnRef.current.parentElement.style.marginTop = `${ tooltipBtnHeight }px`;
-      btnRef.current.style.marginTop = `-${ tooltipBtnHeight / 4.5 }px`;
-    }
-  }, [showExplanation, showExplanationBtn, tooltipRef, btnRef]);
+  useTooltipPosition(showExplanation, showExplanationBtn, tooltipRef, btnRef);
 
   return (
     <main className="min-h-screen w-[90vw] max-w-2xl mx-auto flex-col grid place-content-center py-5" onMouseDown={ () => setShowExplanation(false) }>
