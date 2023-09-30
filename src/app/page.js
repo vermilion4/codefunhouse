@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from 'react';
-import ExplanationRequest from './axios/explanationRequest';
+import handleExplanation from './utils/handleExplanation';
 import QueryForm from './QueryForm';
 import TextHighlight from './TextHighlight';
 import useTooltipPosition from './hooks/useTooltipPosition';
@@ -15,53 +15,6 @@ export default function Home ()
   const [loading, setLoading] = useState(false);
   const tooltipRef = useRef(null);
   const btnRef = useRef(null);
-
-  const handleExplanation = useCallback(async () =>
-  {
-    const selectedText = window.getSelection().toString();
-
-    // Function to handle explanation logic
-    const handleExplanationLogic = async (text) =>
-    {
-      if (text)
-      {
-        setTextToExplain(text);
-        setShowExplanationBtn(false);
-        setLoading(true);
-        setShowExplanation(true);
-
-        try
-        {
-          const explanation = await ExplanationRequest(text);
-          setExplanation(`${ text }: ${ explanation }`);
-        } catch (error)
-        {
-          console.error('Error:', error);
-          setExplanation(null);
-        } finally
-        {
-          setLoading(false);
-        }
-      }
-    };
-
-    // Check if there's selected text from touch events
-    if (!selectedText)
-    {
-      // using touch events
-      const touchSelection = document.getSelection();
-      if (touchSelection)
-      {
-        const range = touchSelection.getRangeAt(0);
-        handleExplanationLogic(range.toString());
-      }
-    } else
-    {
-      // Use the selected text from mouse events
-      handleExplanationLogic(selectedText);
-    }
-  }, []);
-
 
   // Handle text change
   const handleChange = useCallback((e) =>
@@ -97,7 +50,7 @@ export default function Home ()
             btnRef={ btnRef }
             tooltipRef={ tooltipRef }
             loading={ loading }
-            handleExplanation={ handleExplanation }
+            handleExplanation={ () => handleExplanation(setTextToExplain, setShowExplanationBtn, setLoading, setShowExplanation, setExplanation) }
           />
         </h3>
       </div>
