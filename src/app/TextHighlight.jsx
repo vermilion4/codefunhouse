@@ -30,7 +30,8 @@ function TextHighlight({
           <button
             ref={btnRef}
             className={`absolute -top-7 left-0 p-3 text-sm bg-black text-white rounded-lg transform -translate-y-1/2 opacity-100 z-10 border border-white dark:bg-white dark:text-black hover:bg-gray-200 transition-all duration-300`}
-            onClick={handleExplanation}>
+            onClick={handleExplanation}
+            onTouchEnd={handleExplanation}>
             Explain
           </button>
         </>
